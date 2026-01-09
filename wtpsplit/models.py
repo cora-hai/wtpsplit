@@ -1006,6 +1006,7 @@ class SubwordXLMForTokenClassification(XLMRobertaForTokenClassification):
         hashed_ids: Optional[torch.Tensor] = None,
         language_ids=None,
         return_dict: Optional[bool] = None,
+        **kwargs
     ) -> Union[Tuple[torch.Tensor], TokenClassifierOutput]:
         r"""
         labels (`torch.LongTensor` of shape `(batch_size, sequence_length)`, *optional*):
@@ -1022,7 +1023,7 @@ class SubwordXLMForTokenClassification(XLMRobertaForTokenClassification):
             inputs_embeds=inputs_embeds,
             output_attentions=output_attentions,
             output_hidden_states=output_hidden_states,
-            return_dict=return_dict,
+            return_dict=return_dict
         )
 
         sequence_output = outputs[0]
