@@ -1,5 +1,5 @@
 import os
-from typing import Dict
+from typing import Dict, List, Optional
 
 import numpy as np
 import torch
@@ -7,6 +7,7 @@ import transformers
 from torch import nn
 from torch.optim.lr_scheduler import LambdaLR
 from transformers import PreTrainedModel
+from transformers.trainer_pt_utils import nested_truncate
 from transformers.trainer import (
     ALL_LAYERNORM_LAYERS,
     TRAINING_ARGS_NAME,
@@ -14,8 +15,8 @@ from transformers.trainer import (
     DataLoader,
     EvalLoopOutput,
     IterableDatasetShard,
-    List,
-    Optional,
+    #List,
+    #Optional,
     ShardedDDPOption,
     deepspeed_init,
     denumpify_detensorize,
@@ -23,20 +24,20 @@ from transformers.trainer import (
     get_parameter_names,
     has_length,
     is_sagemaker_mp_enabled,
-    is_torch_tpu_available,
+    #is_torch_tpu_available,
     logger,
     nested_concat,
     nested_numpify,
-    nested_truncate,
+    #nested_truncate,
 )
 from transformers.modeling_utils import unwrap_model
 
 from wtpsplit.train.utils import Model
 
-if is_torch_tpu_available(check_device=False):
+"""if is_torch_tpu_available(check_device=False):
     import torch_xla.core.xla_model as xm  # noqa: F401
     import torch_xla.debug.metrics as met  # noqa: F401
-    import torch_xla.distributed.parallel_loader as pl  # noqa: F401
+    import torch_xla.distributed.parallel_loader as pl  # noqa: F401"""
 
 
 class Trainer(transformers.Trainer):
@@ -168,8 +169,8 @@ class Trainer(transformers.Trainer):
 
     def _maybe_log_save_evaluate(self, tr_loss, model, trial, epoch, ignore_keys_for_eval):
         if self.control.should_log:
-            if is_torch_tpu_available():
-                xm.mark_step()
+            """if is_torch_tpu_available():
+                xm.mark_step()"""
 
             logs: Dict[str, float] = {}
 
@@ -258,9 +259,9 @@ class Trainer(transformers.Trainer):
         # Do this before wrapping.
         eval_dataset = getattr(dataloader, "dataset", None)
 
-        if is_torch_tpu_available():
+        """if is_torch_tpu_available():
             dataloader = pl.ParallelLoader(dataloader, [args.device]).per_device_loader(args.device)
-
+"""
         if args.past_index >= 0:
             self._past = None
 
@@ -293,8 +294,8 @@ class Trainer(transformers.Trainer):
             loss, logits, labels = self.prediction_step(model, inputs, prediction_loss_only, ignore_keys=ignore_keys)
             inputs_decode = self._prepare_input(inputs["input_ids"]) if args.include_inputs_for_metrics else None
 
-            if is_torch_tpu_available():
-                xm.mark_step()
+            """if is_torch_tpu_available():
+                xm.mark_step()"""
 
             # Update containers on host
             if loss is not None:
