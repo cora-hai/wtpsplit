@@ -23,7 +23,7 @@ from tokenizers import AddedToken
 from torchinfo import summary
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, HfArgumentParser, TrainingArguments, set_seed
-from transformers.trainer import is_torch_tpu_available
+#from transformers.trainer import is_torch_tpu_available
 
 import wandb
 from wtpsplit.models import (
@@ -201,14 +201,14 @@ def main():
         (args, training_args, label_args) = parser.parse_args_into_dataclasses()
         wandb_name = None
 
-    if is_torch_tpu_available():
+    """if is_torch_tpu_available():
         import torch_xla.core.xla_model as xm
 
         world_size = xm.xrt_world_size()
         if world_size == 4:
             # ensure same batch size on TPUv3 and TPUv4 using same config.json
-            training_args.per_device_train_batch_size *= 2
-    elif torch.cuda.is_available():
+            training_args.per_device_train_batch_size *= 2"""
+    if torch.cuda.is_available():
         world_size = torch.cuda.device_count()
     else:
         world_size = 1
