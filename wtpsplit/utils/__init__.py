@@ -47,7 +47,7 @@ class ConstantsClass:
     def PUNCTUATION_CHARS(self):
         punctuation_path = os.path.join(self.ROOT_DIR, "data", self._PUNCTUATION_FILE)
         if os.path.exists(punctuation_path):
-            return [x.strip() for x in open(punctuation_path).readlines()]
+            return [x.strip() for x in open(punctuation_path, encoding = "utf-8").readlines()]
         else:
             raise FileNotFoundError(f"The file {punctuation_path} does not exist.")
 
