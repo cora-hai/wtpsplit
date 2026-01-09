@@ -8,6 +8,7 @@ from torch import nn
 from torch.optim.lr_scheduler import LambdaLR
 from transformers import PreTrainedModel
 from transformers.trainer_pt_utils import nested_truncate
+
 from transformers.trainer import (
     ALL_LAYERNORM_LAYERS,
     TRAINING_ARGS_NAME,
@@ -17,7 +18,7 @@ from transformers.trainer import (
     IterableDatasetShard,
     #List,
     #Optional,
-    ShardedDDPOption,
+    #ShardedDDPOption,
     deepspeed_init,
     denumpify_detensorize,
     find_batch_size,
@@ -109,19 +110,19 @@ class Trainer(transformers.Trainer):
 
             optimizer_cls, optimizer_kwargs = Trainer.get_optimizer_cls_and_kwargs(self.args)
 
-            if self.sharded_ddp == ShardedDDPOption.SIMPLE:
+            """if self.sharded_ddp == ShardedDDPOption.SIMPLE:
                 raise NotImplementedError()
-            else:
-                self.optimizer = optimizer_cls(optimizer_grouped_parameters, **optimizer_kwargs)
-                if optimizer_cls.__name__ == "Adam8bit":
-                    import bitsandbytes
+            else:"""
+            self.optimizer = optimizer_cls(optimizer_grouped_parameters, **optimizer_kwargs)
+            if optimizer_cls.__name__ == "Adam8bit":
+                import bitsandbytes
 
-                    manager = bitsandbytes.optim.GlobalOptimManager.get_instance()
+                manager = bitsandbytes.optim.GlobalOptimManager.get_instance()
 
-                    for module in opt_model.modules():
-                        if isinstance(module, nn.Embedding):
-                            manager.register_module_override(module, "weight", {"optim_bits": 32})
-                            logger.debug(f"bitsandbytes: will optimize {module} in fp32")
+                for module in opt_model.modules():
+                    if isinstance(module, nn.Embedding):
+                        manager.register_module_override(module, "weight", {"optim_bits": 32})
+                        logger.debug(f"bitsandbytes: will optimize {module} in fp32")
 
         if is_sagemaker_mp_enabled():
             raise NotImplementedError()
