@@ -8,7 +8,7 @@ from torch import nn
 from transformers import PreTrainedModel
 from transformers.modeling_utils import unwrap_model
 from transformers.trainer_pt_utils import nested_truncate
-from transformers.utils import is_torch_tpu_available
+from transformers.utils.import_utils import is_torch_tpu_available
 from transformers.trainer import (
     ALL_LAYERNORM_LAYERS,
     WEIGHTS_NAME,
