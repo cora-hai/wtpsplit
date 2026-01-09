@@ -1,5 +1,5 @@
 import os
-from typing import Dict
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 import torch
@@ -7,24 +7,26 @@ from torch import nn
 
 from transformers import PreTrainedModel
 from transformers.modeling_utils import unwrap_model
+from transformers.trainer_pt_utils import nested_truncate
+from transformers.utils import is_torch_tpu_available
 from transformers.trainer import (
     ALL_LAYERNORM_LAYERS,
     WEIGHTS_NAME,
     DataLoader,
     EvalLoopOutput,
     IterableDatasetShard,
-    List,
-    Optional,
+    #List,
+    #Optional,
     deepspeed_init,
     denumpify_detensorize,
     find_batch_size,
     get_parameter_names,
     has_length,
     is_sagemaker_mp_enabled,
-    is_torch_tpu_available,
+    #is_torch_tpu_available,
     nested_concat,
     nested_numpify,
-    nested_truncate,
+    #nested_truncate,
 )
 
 from wtpsplit.train.utils import Model
