@@ -58,7 +58,7 @@ from transformers.utils import (
     CONFIG_NAME,
     is_accelerate_available,
     is_apex_available,
-    is_torch_tpu_available,
+    #is_torch_tpu_available,
     logging,
 )
 
