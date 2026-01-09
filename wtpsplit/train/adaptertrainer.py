@@ -1,5 +1,5 @@
 import os
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
 import numpy as np
 import torch
@@ -8,7 +8,7 @@ from torch import nn
 from transformers import PreTrainedModel
 from transformers.modeling_utils import unwrap_model
 from transformers.trainer_pt_utils import nested_truncate
-from transformers.utils.import_utils import is_torch_tpu_available
+#from transformers.trainer_utils import is_torch_tpu_available
 from transformers.trainer import (
     ALL_LAYERNORM_LAYERS,
     WEIGHTS_NAME,
@@ -31,10 +31,10 @@ from transformers.trainer import (
 
 from wtpsplit.train.utils import Model
 
-if is_torch_tpu_available(check_device=False):
+"""if is_torch_tpu_available(check_device=False):
     import torch_xla.core.xla_model as xm  # noqa: F401
     import torch_xla.debug.metrics as met  # noqa: F401
-    import torch_xla.distributed.parallel_loader as pl  # noqa: F401
+    import torch_xla.distributed.parallel_loader as pl  # noqa: F401"""
 
 import re
 from typing import Callable, Tuple, Union
